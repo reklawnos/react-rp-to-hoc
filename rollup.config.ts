@@ -6,7 +6,7 @@ import json from 'rollup-plugin-json';
 
 const pkg = require('./package.json');
 
-const libraryName = 'react-rp-to-hoc';
+const libraryName = 'rp-to-hoc';
 
 export default {
   input: `src/index.tsx`,

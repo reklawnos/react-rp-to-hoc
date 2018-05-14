@@ -1,18 +1,18 @@
 {
-  "name": "react-rp-to-hoc",
-  "version": "0.0.0",
+  "name": "rp-to-hoc",
+  "version": "0.0.1",
   "description": "",
   "keywords": [],
-  "main": "dist/react-rp-to-hoc.umd.js",
-  "module": "dist/react-rp-to-hoc.es5.js",
-  "typings": "dist/types/react-rp-to-hoc.d.ts",
+  "main": "dist/rp-to-hoc.umd.js",
+  "module": "dist/rp-to-hoc.es5.js",
+  "typings": "dist/types/rp-to-hoc.d.ts",
   "files": [
     "dist"
   ],
   "author": "Walker Henderson <wjahenderson@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/reklawnos/react-rp-to-hoc.git"
+    "url": "https://github.com/reklawnos/rp-to-hoc.git"
   },
   "license": "MIT",
   "engines": {
@@ -70,7 +70,10 @@
   "dependencies": {
     "@types/node": "^10.0.8",
     "@types/react": "^16.3.14",
-    "hoist-non-react-statics": "^2.5.0",
-    "react": "^16.3.2"
+    "hoist-non-react-statics": "^2.5.0"
+  },
+  "peerDependencies": {
+      "react": "^16.0.0",
+      "react-dom": "^16.0.0"
   }
 }
