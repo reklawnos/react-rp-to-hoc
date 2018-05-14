@@ -1,4 +1,5 @@
 import * as React from 'react';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 export type Omit<T, U> = Pick<T, Exclude<keyof T, U>>;
 
@@ -7,29 +8,34 @@ export interface PropsWithRenderPropChildren {
 }
 
 type ParamOf<F extends (p: any) => any> =
+  // TODO: Looks like tslint doesn't support this syntax yet...
+  // tslint:disable-next-line
   F extends (param: infer T) => any ? T : never;
 
 type ParamOfChildren<P extends PropsWithRenderPropChildren> = ParamOf<P['children']>;
 
 export default function renderPropToHoc<Pc extends PropsWithRenderPropChildren>(
-  ComponentToConvert: React.ComponentType<Pc>
+  ComponentToConvert: React.ComponentType<Pc>,
 ) {
   type ParamType = ParamOfChildren<Pc>;
-  return function hoc<Pw, Passed extends Partial<Pw>>(
-    ComponentToWrap: React.ComponentType<Pw>,
+  return function hocCreator<Pw, Passed extends Partial<Pw>>(
     convertedComponentProps: Omit<Pc, 'children'>,
     paramToProps: (param: ParamType) => Passed,
   ) {
-    const GeneratedComponent: React.SFC<Omit<Pw, keyof Passed>> = (props) => (
-      <ComponentToConvert {...convertedComponentProps}>
-        {param => (
-            <ComponentToWrap
-              {...props}
-              {...paramToProps(param)}
-            />
-        )}
-      </ComponentToConvert>
-    );
-    return GeneratedComponent;
-  }
+    return function hoc(ComponentToWrap: React.ComponentType<Pw>) {
+      const GeneratedComponent: React.SFC<Omit<Pw, keyof Passed>> = (props) => (
+        <ComponentToConvert {...convertedComponentProps}>
+          {param => (
+              <ComponentToWrap
+                {...props}
+                {...paramToProps(param)}
+              />
+          )}
+        </ComponentToConvert>
+      );
+
+      // TODO: do more HOC-ish best practices here, like copying over propTypes, etc.
+      return hoistNonReactStatics(GeneratedComponent, ComponentToWrap as any);
+    };
+  };
 }
