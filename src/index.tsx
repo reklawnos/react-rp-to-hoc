@@ -4,7 +4,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 export type Omit<T, U> = Pick<T, Exclude<keyof T, U>>;
 
 export interface PropsWithRenderPropChildren {
-  children: (param: any) => JSX.Element;
+  children: (param: any) => React.ReactNode;
 }
 
 type ParamOf<F extends (p: any) => any> =

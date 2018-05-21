@@ -3,7 +3,7 @@ import renderPropToHoc from '../src/';
 
 interface RenderPropProps {
   foo: string;
-  children: (param: string) => JSX.Element;
+  children: (param: string) => React.ReactNode;
 }
 
 class RpClassComponent extends React.Component<RenderPropProps> {
