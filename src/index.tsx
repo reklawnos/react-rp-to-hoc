@@ -7,19 +7,16 @@ export interface PropsWithRenderPropChildren {
   children: (param: any) => React.ReactNode;
 }
 
-type ParamOf<F extends (p: any) => any> =
+export type ParamOf<F extends (p: any) => any> =
   F extends (param: infer T) => any ? T : never;
 
-type ParamOfChildren<P extends PropsWithRenderPropChildren> = ParamOf<P['children']>;
+export type ParamOfChildren<P extends PropsWithRenderPropChildren> = ParamOf<P['children']>;
 
-export default function renderPropToHoc<Pc extends PropsWithRenderPropChildren>(
+export default function renderPropToHoc<Pc extends PropsWithRenderPropChildren, Passed>(
   ComponentToConvert: React.ComponentType<Pc>,
+  mapParamToProps: (param: ParamOfChildren<Pc>) => Passed,
 ) {
-  type ParamType = ParamOfChildren<Pc>;
-  return function hocCreator<Passed>(
-    convertedComponentProps: Omit<Pc, 'children'>,
-    mapParamToProps: (param: ParamType) => Passed,
-  ) {
+  return function hocCreator(convertedComponentProps: Omit<Pc, 'children'>) {
     return function hoc<Pw extends Passed>(ComponentToWrap: React.ComponentType<Pw>) {
       const GeneratedComponent: React.SFC<Omit<Pw, keyof Passed>> = (props) => (
         <ComponentToConvert {...convertedComponentProps}>

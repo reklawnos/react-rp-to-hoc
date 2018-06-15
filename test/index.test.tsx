@@ -25,6 +25,7 @@ const RpSfcComponent: React.SFC<RenderPropProps> = ({ foo, children }) => (
 
 interface BasicProps {
   bar: string;
+  bazzy: string;
 }
 
 class BasicClassComponent extends React.Component<BasicProps> {
@@ -44,14 +45,14 @@ const BasicSfc: React.SFC<BasicProps> = ({ bar }) => (
   </div>
 );
 
-const hocOfClass = renderPropToHoc(RpClassComponent);
-const hocOfSfc = renderPropToHoc(RpSfcComponent);
-const WrappedClass = hocOfClass({ foo: 'test' }, bar => ({ bar }))(BasicClassComponent);
-const WrappedSfc = hocOfSfc({ foo: 'test' }, bar => ({ bar }))(BasicSfc);
+const hocOfClass = renderPropToHoc(RpClassComponent, bar => ({ bar }));
+const hocOfSfc = renderPropToHoc(RpSfcComponent, bar => ({ bar }));
+const WrappedClass = hocOfClass({ foo: 'test' })(BasicClassComponent);
+const WrappedSfc = hocOfSfc({ foo: 'test' })(BasicSfc);
 
 describe('test', () => {
   it('works', () => {
-    expect(React.isValidElement(<WrappedClass />)).toBe(true);
-    expect(React.isValidElement(<WrappedSfc />)).toBe(true);
+    expect(React.isValidElement(<WrappedClass bazzy="test" />)).toBe(true);
+    expect(React.isValidElement(<WrappedSfc bazzy="test" />)).toBe(true);
   });
 });
