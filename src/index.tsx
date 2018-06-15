@@ -8,8 +8,6 @@ export interface PropsWithRenderPropChildren {
 }
 
 type ParamOf<F extends (p: any) => any> =
-  // TODO: Looks like tslint doesn't support this syntax yet...
-  // tslint:disable-next-line
   F extends (param: infer T) => any ? T : never;
 
 type ParamOfChildren<P extends PropsWithRenderPropChildren> = ParamOf<P['children']>;
