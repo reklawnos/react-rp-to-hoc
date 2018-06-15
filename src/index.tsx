@@ -18,11 +18,11 @@ export default function renderPropToHoc<Pc extends PropsWithRenderPropChildren>(
   ComponentToConvert: React.ComponentType<Pc>,
 ) {
   type ParamType = ParamOfChildren<Pc>;
-  return function hocCreator<Pw, Passed extends Partial<Pw>>(
+  return function hocCreator<Passed>(
     convertedComponentProps: Omit<Pc, 'children'>,
     mapParamToProps: (param: ParamType) => Passed,
   ) {
-    return function hoc(ComponentToWrap: React.ComponentType<Pw>) {
+    return function hoc<Pw extends Passed>(ComponentToWrap: React.ComponentType<Pw>) {
       const GeneratedComponent: React.SFC<Omit<Pw, keyof Passed>> = (props) => (
         <ComponentToConvert {...convertedComponentProps}>
           {param => (

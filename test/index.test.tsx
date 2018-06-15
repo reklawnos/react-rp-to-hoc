@@ -47,4 +47,11 @@ const BasicSfc: React.SFC<BasicProps> = ({ bar }) => (
 const hocOfClass = renderPropToHoc(RpClassComponent);
 const hocOfSfc = renderPropToHoc(RpSfcComponent);
 const WrappedClass = hocOfClass({ foo: 'test' }, bar => ({ bar }))(BasicClassComponent);
-const WrappedSfc = hocOfClass({ foo: 'test' }, bar => ({ bar }))(BasicSfc);
+const WrappedSfc = hocOfSfc({ foo: 'test' }, bar => ({ bar }))(BasicSfc);
+
+describe('test', () => {
+  it('works', () => {
+    expect(React.isValidElement(<WrappedClass />)).toBe(true);
+    expect(React.isValidElement(<WrappedSfc />)).toBe(true);
+  });
+});
